@@ -1,0 +1,37 @@
+.form-container {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  width: 80%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+input[type="text"] {
+  width: 80%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+input[type="date"] {
+  width: 80%;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+input[type="file"] {
+  width: 80%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: white;
+}

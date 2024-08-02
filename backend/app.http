@@ -1,0 +1,55 @@
+###
+POST http://localhost:5000/backend/user
+content-type: application/json
+
+{
+    "Id": "9",
+    "CompanyName": "SLLp",
+    "FormA": "004",
+    "EmployeeName": "Alok",
+    "FathersName": "A SAHOO",
+    "Designation": "DRIVER",
+    "JoiningDate": "2019-04-02",
+    "Birth": "1979-02-2",
+    "Licence": "OR-0619970007421",
+    "Aadhar": "8533037018098",
+    "VtcNo": "2022/374",
+    "VtcDate": "2022-07-05",
+    "ImeNO": "2053",
+    "ImeDate": "2018-12-02",
+    "IsIDCardIssued": "Issued",
+    "BloodGroup": "B+Ve",
+    "TempAddress": "SAMARPAN LOGISTICS PVT.LTD. CAMP",
+    "Contact": "9439626664",
+    "ParmanentAddress": "KANHEI PAL,DHENKANAL,ODISHA-759039",
+    "IsPresent": "P",
+    "BankName": "SBI",
+    "BankAc": "33401354085",
+    "PAN": "",
+    "NominiesName": "SANDHYA RANI SAHOO",
+    "NominiesAddress": "KANHEI PAL,DHENKANAL,ODISHA-759039",
+    "NominiesRelation": "WIFE",
+    "EmergencyNo": "9439626665"
+}
+
+
+###
+PUT http://localhost:5000/backend/user/9090909090
+content-type: application/json
+
+{
+    "CompanyName": "mcl"
+}
+
+
+###
+GET   http://localhost:5000/backend/user/all
+content-type: application/json
+
+###
+DELETE  http://localhost:5000/backend/user/89898989898989
+content-type: application/json
+
+###
+GET http://localhost:5000/backend/user?EmployeeName=Alok%20kumar
+content-type: application/json
