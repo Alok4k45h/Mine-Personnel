@@ -17,7 +17,7 @@ function CrudComponent() {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/backend/user/all"
+          "https://socp-minepersonnel-backend.onrender.com/backend/user/all"
         );
         setUsers(response.data);
         setLoading(false);

@@ -58,12 +58,12 @@ const IDCard = ({ data }) => {
                   ID Card No: {Id}
                 </p>
                 <img
-                  src={`http://localhost:5000${empImage}`}
+                  src={`https://socp-minepersonnel-backend.onrender.com${empImage}`}
                   alt="Employee"
                   className="empid-image"
                 />
                 <img
-                  src={`http://localhost:5000${empSignature}`}
+                  src={`https://socp-minepersonnel-backend.onrender.com${empSignature}`}
                   alt="Employee Signature"
                   className="id-sign"
                 />
@@ -83,7 +83,7 @@ const IDCard = ({ data }) => {
                 <p className="id-para">Date of Birth: {Birth}</p>
                 <div className="text-end">
                   <img
-                    src={`http://localhost:5000${managerSignature}`}
+                    src={`https://socp-minepersonnel-backend.onrender.com${managerSignature}`}
                     alt="Manager Signature"
                     className="id-sign"
                   />

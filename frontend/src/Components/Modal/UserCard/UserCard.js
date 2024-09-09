@@ -57,7 +57,7 @@ const UserCard = ({ data }) => {
                     <div className="row">
                       <div className="col-12 col-md-4 mb-3 text-center">
                         <img
-                          src={`http://localhost:5000${data.empImage}`}
+                          src={`https://socp-minepersonnel-backend.onrender.com${data.empImage}`}
                           alt="Employee"
                           className="emp-img p-5"
                           loading="lazy" // Lazy load image for better performance
@@ -157,7 +157,7 @@ const UserCard = ({ data }) => {
                       )}
                       <div className="col-12 col-md-4 text-center">
                         <img
-                          src={`http://localhost:5000${data.empSignature}`}
+                          src={`https://socp-minepersonnel-backend.onrender.com${data.empSignature}`}
                           alt="Employee Signature"
                           className="emp-sign p-5"
                           loading="lazy"
@@ -168,7 +168,7 @@ const UserCard = ({ data }) => {
                       </div>
                       <div className="col-12 col-md-4 text-center">
                         <img
-                          src={`http://localhost:5000${data.managerSignature}`}
+                          src={`https://socp-minepersonnel-backend.onrender.com${data.managerSignature}`}
                           alt="Manager Signature"
                           className="manager-sign p-5"
                           loading="lazy"

@@ -97,7 +97,7 @@
 //         formDataToSend.append("managerSignature", managerSignature);
 
 //       const response = await axios.put(
-//         `http://localhost:5000/backend/user/${formData.Aadhar}`,
+//         `https://socp-minepersonnel-backend.onrender.com/backend/user/${formData.Aadhar}`,
 //         formDataToSend,
 //         {
 //           headers: {
@@ -352,7 +352,7 @@ const UpdateUser = () => {
         formDataToSend.append("managerSignature", managerSignature);
 
       const response = await axios.put(
-        `http://localhost:5000/backend/user/${formData.Aadhar}`,
+        `https://socp-minepersonnel-backend.onrender.com/backend/user/${formData.Aadhar}`,
         formDataToSend,
         {
           headers: {
