@@ -6,7 +6,7 @@ function HomePage() {
   const [showHome, setShowHome] = useState(true);
 
   useEffect(() => {
-    // Set a timer to switch the component after a few seconds
+    // Timer to switch the component
     const timer = setTimeout(() => {
       setShowHome(false);
     }, 5000); // Display home component for 5 seconds

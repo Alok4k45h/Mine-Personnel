@@ -6,7 +6,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 
-// importing all routes file
+// importing routes file
 const userRoute = require("./routes/user");
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

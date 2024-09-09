@@ -2,46 +2,84 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./CreateComponent.css";
 
-const CreateComponent = () => {
-  // State for form data
-  const [formData, setFormData] = useState({
-    Id: "",
-    CompanyName: "",
-    ContractorName: "",
-    AuthorisationNo: "",
-    FormA: "",
-    EmployeeName: "",
-    FathersName: "",
-    Designation: "",
-    JoiningDate: "",
-    Birth: "",
-    Licence: "",
-    Aadhar: "",
-    VtcNo: "",
-    VtcDate: "",
-    ImeNO: "",
-    ImeDate: "",
-    IsIDCardIssued: "",
-    BloodGroup: "",
-    TempAddress: "",
-    Contact: "",
-    ParmanentAddress: "",
-    IsPresent: "",
-    BankName: "",
-    BankAc: "",
-    PAN: "",
-    NominiesName: "",
-    NominiesAddress: "",
-    NominiesRelation: "",
-    EmergencyNo: "",
-  });
+const fieldNames = [
+  "Id",
+  "CompanyName",
+  "ContractorName",
+  "AuthorisationNo",
+  "FormA",
+  "EmployeeName",
+  "FathersName",
+  "Designation",
+  "JoiningDate",
+  "Birth",
+  "Licence",
+  "Aadhar",
+  "VtcNo",
+  "VtcDate",
+  "ImeNO",
+  "ImeDate",
+  "IsIDCardIssued",
+  "BloodGroup",
+  "TempAddress",
+  "Contact",
+  "ParmanentAddress",
+  "IsPresent",
+  "BankName",
+  "BankAc",
+  "PAN",
+  "NominiesName",
+  "NominiesAddress",
+  "NominiesRelation",
+  "EmergencyNo",
+];
 
-  const [image, setImage] = useState(null);
+const initialFormState = fieldNames.reduce((acc, field) => {
+  acc[field] = "";
+  return acc;
+}, {});
+
+const initialFileState = {
+  empImage: null,
+  empSignature: null,
+  managerSignature: null,
+};
+
+const CreateComponent = () => {
+  const [formData, setFormData] = useState(initialFormState);
+  const [files, setFiles] = useState(initialFileState);
   const [message, setMessage] = useState("");
   const [imageError, setImageError] = useState("");
+  const [errors, setErrors] = useState({});
 
-  // Function to handle form input changes
-  const handleChange = (e) => {
+  // Validation rules
+  const validateFields = () => {
+    let tempErrors = {};
+    const aadharRegex = /^[0-9]{12}$/;
+    const contactRegex = /^[6-9]\d{9}$/;
+    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+
+    // Example validations
+    if (!formData.EmployeeName)
+      tempErrors.EmployeeName = "Employee Name is required";
+    if (!formData.FathersName)
+      tempErrors.FathersName = "Father's Name is required";
+    if (!formData.Aadhar || !aadharRegex.test(formData.Aadhar))
+      tempErrors.Aadhar = "Valid Aadhar number is required (12 digits)";
+    if (!formData.Contact || !contactRegex.test(formData.Contact))
+      tempErrors.Contact = "Valid contact number is required (10 digits)";
+    if (!formData.EmergencyNo || !contactRegex.test(formData.EmergencyNo))
+      tempErrors.EmergencyNo = "Valid emergency number is required (10 digits)";
+    if (formData.PAN && !panRegex.test(formData.PAN))
+      tempErrors.PAN = "Invalid PAN format";
+    if (!files.empImage) tempErrors.empImage = "Employee image is required";
+
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  };
+
+  // Handle input changes for both text fields and files
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -49,78 +87,58 @@ const CreateComponent = () => {
     }));
   };
 
-  // Function to handle image input changes
-  const handleImageChange = (e) => {
+  const handleFileChange = (e) => {
+    const { name } = e.target;
     const file = e.target.files[0];
+
     if (file && file.size > 500 * 1024) {
-      // 500KB
-      setImageError("Image size should not exceed 500KB.");
-      setImage(null);
+      setImageError(`${name} size should not exceed 500KB.`);
+      setFiles((prevState) => ({ ...prevState, [name]: null }));
     } else {
-      setImage(file);
+      setFiles((prevState) => ({ ...prevState, [name]: file }));
       setImageError("");
     }
   };
 
-  // Function to handle form submission
+  // Submit form data to backend
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateFields()) {
+      return;
+    }
+
     try {
       const formDataToSend = new FormData();
-      Object.keys(formData).forEach((key) => {
-        formDataToSend.append(key, formData[key]);
+      Object.entries(formData).forEach(([key, value]) =>
+        formDataToSend.append(key, value)
+      );
+      Object.entries(files).forEach(([key, file]) => {
+        if (file) formDataToSend.append(key, file);
       });
-      if (image) {
-        formDataToSend.append("image", image);
-      }
-      // Send form data to backend using Axios
+
       const response = await axios.post(
         "http://localhost:5000/backend/user",
         formDataToSend,
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
+
       setMessage(response.data.message);
-      // Reset form data after successful submission
-      setFormData((prevState) => ({
-        ...prevState,
-        Id: "",
-        CompanyName: "",
-        ContractorName: "",
-        AuthorisationNo: "",
-        FormA: "",
-        EmployeeName: "",
-        FathersName: "",
-        Designation: "",
-        JoiningDate: "",
-        Birth: "",
-        Licence: "",
-        Aadhar: "",
-        VtcNo: "",
-        VtcDate: "",
-        ImeNO: "",
-        ImeDate: "",
-        IsIDCardIssued: "",
-        BloodGroup: "",
-        TempAddress: "",
-        Contact: "",
-        ParmanentAddress: "",
-        IsPresent: "",
-        BankName: "",
-        BankAc: "",
-        PAN: "",
-        NominiesName: "",
-        NominiesAddress: "",
-        NominiesRelation: "",
-        EmergencyNo: "",
-      }));
-      setImage(null);
+      resetForm();
     } catch (error) {
-      setMessage(error.response.data.error);
+      setMessage(
+        error.response?.data?.error || "Submission failed. Please try again."
+      );
     }
+  };
+
+  // Reset form data and files
+  const resetForm = () => {
+    setFormData(initialFormState);
+    setFiles(initialFileState);
+    setErrors({});
   };
 
   return (
@@ -130,305 +148,59 @@ const CreateComponent = () => {
           <div className="form-container pt-5 pb-5">
             <h2 className="pt-3 pb-3 text-white">Input User Details</h2>
             <form onSubmit={handleSubmit}>
-              {/* Input fields for user data */}
-              <div className="container">
-                <div className="row">
-                  <div className="form-group col-md-6">
+              {fieldNames.map((field) => (
+                <div key={field} className="form-group col-12">
+                  <label className="text-dark bg-white p-2 image-input">
+                    {field.replace(/([A-Z])/g, " $1").trim()}:
                     <input
-                      type="text"
-                      name="Id"
-                      placeholder="ID NO.*"
-                      value={formData.Id}
-                      onChange={handleChange}
-                      required
+                      type={
+                        field.includes("Date") || field === "Birth"
+                          ? "date"
+                          : "text"
+                      }
+                      name={field}
+                      value={formData[field]}
+                      placeholder={field.replace(/([A-Z])/g, " $1").trim()}
+                      onChange={handleInputChange}
+                      required={[
+                        "EmployeeName",
+                        "FathersName",
+                        "Aadhar",
+                        "Contact",
+                        "EmergencyNo",
+                        "JoiningDate",
+                        "Birth",
+                      ].includes(field)}
                     />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="CompanyName"
-                      placeholder="Company Name*"
-                      value={formData.CompanyName}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="ContractorName"
-                      placeholder="Contractor Company Name*"
-                      value={formData.ContractorName}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="AuthorisationNo"
-                      placeholder="Authorisation No."
-                      value={formData.AuthorisationNo}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="FormA"
-                      placeholder="Form A"
-                      value={formData.FormA}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="EmployeeName"
-                      placeholder="Employee Name*"
-                      value={formData.EmployeeName}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="FathersName"
-                      placeholder="Father's Name*"
-                      value={formData.FathersName}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="Designation"
-                      placeholder="Designation"
-                      value={formData.Designation}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <label className="text-dark bg-white p-2">
-                      Joining Date:
-                      <input
-                        type="date"
-                        name="JoiningDate"
-                        placeholder="Joining Date"
-                        value={formData.JoiningDate}
-                        onChange={handleChange}
-                      />
-                    </label>
-                  </div>
-                  <div className="form-group col-md-6">
-                    <label className="text-dark bg-white p-2">
-                      Date of Birth:
-                      <input
-                        type="date"
-                        name="Birth"
-                        placeholder="Birth Date"
-                        value={formData.Birth}
-                        onChange={handleChange}
-                      />
-                    </label>
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="Licence"
-                      placeholder="Licence"
-                      value={formData.Licence}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="Aadhar"
-                      placeholder="Aadhar Number*"
-                      value={formData.Aadhar}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="VtcNo"
-                      placeholder="VTC No."
-                      value={formData.VtcNo}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <label className="text-dark bg-white p-2">
-                      VTC Date:
-                      <input
-                        type="date"
-                        name="VtcDate"
-                        placeholder="VTC Date"
-                        value={formData.VtcDate}
-                        onChange={handleChange}
-                      />
-                    </label>
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="ImeNO"
-                      placeholder="IME NO."
-                      value={formData.ImeNO}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <label className="text-dark bg-white p-2">
-                      IME Date:
-                      <input
-                        type="date"
-                        name="ImeDate"
-                        placeholder="IME Date"
-                        value={formData.ImeDate}
-                        onChange={handleChange}
-                      />{" "}
-                    </label>
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="IsIDCardIssued"
-                      placeholder="Is ID Card Issued"
-                      value={formData.IsIDCardIssued}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="BloodGroup"
-                      placeholder="Blood Group"
-                      value={formData.BloodGroup}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="TempAddress"
-                      placeholder="Temporary Address"
-                      value={formData.TempAddress}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="Contact"
-                      placeholder="Contact Number*"
-                      value={formData.Contact}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="ParmanentAddress"
-                      placeholder="Permanent Address"
-                      value={formData.ParmanentAddress}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="IsPresent"
-                      placeholder="Is Present"
-                      value={formData.IsPresent}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="BankName"
-                      placeholder="Bank Name"
-                      value={formData.BankName}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="BankAc"
-                      placeholder="Bank Account Number"
-                      value={formData.BankAc}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="PAN"
-                      placeholder="PAN"
-                      value={formData.PAN}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="NominiesName"
-                      placeholder="Nominee's Name"
-                      value={formData.NominiesName}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="NominiesAddress"
-                      placeholder="Nominee's Address"
-                      value={formData.NominiesAddress}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="NominiesRelation"
-                      placeholder="Nominee's Relation"
-                      value={formData.NominiesRelation}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="text"
-                      name="EmergencyNo"
-                      placeholder="Emergency Contact Number*"
-                      value={formData.EmergencyNo}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <input
-                      type="file"
-                      name="image"
-                      placeholder="Upload User Image"
-                      onChange={handleImageChange}
-                    />
-                    {imageError && <p className="text-danger">{imageError}</p>}
-                  </div>
+                    {errors[field] && (
+                      <p className="text-danger">{errors[field]}</p>
+                    )}
+                  </label>
                 </div>
-              </div>
+              ))}
+
+              {["empImage", "empSignature", "managerSignature"].map(
+                (fileField) => (
+                  <div key={fileField} className="form-group col-12">
+                    <label className="text-dark bg-white p-2 image-input">
+                      Upload {fileField.replace(/([A-Z])/g, " $1").trim()}:
+                      <input
+                        type="file"
+                        name={fileField}
+                        onChange={handleFileChange}
+                      />
+                    </label>
+                  </div>
+                )
+              )}
+
+              {imageError && <p className="text-danger">{imageError}</p>}
+
               <button type="submit" className="btn btn-outline-light">
                 Submit
               </button>
             </form>
+
             {message && <p className="pt-5 pb-5 res-message">{message}</p>}
           </div>
         </div>

@@ -15,7 +15,8 @@
 .search-heading {
   text-align: center;
   color: white;
-  font-family: "Roboto", sans-serif;
+  font-family: "Protest Revolution", sans-serif;
+  font-style: normal;
   font-size: 1.75rem;
   font-weight: 700;
   margin-bottom: 32px;
@@ -56,15 +57,4 @@
 }
 
 @media screen and (min-width: 768px) {
-  .intern-search-container {
-    align-items: flex-start;
-  }
-
-  .heading {
-    margin-top: 96px;
-  }
-
-  .intern-list {
-    justify-content: flex-start;
-  }
 }

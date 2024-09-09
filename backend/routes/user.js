@@ -4,6 +4,7 @@ const multer = require("multer");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
+const qrcode = require("qrcode");
 const User = require("../schema/UserSchema");
 
 // Multer configuration for file storage
@@ -17,8 +18,22 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// Middleware to handle multiple file uploads
+const uploadFields = upload.fields([
+  { name: "empImage", maxCount: 1 },
+  { name: "empSignature", maxCount: 1 },
+  { name: "managerSignature", maxCount: 1 },
+]);
+
+// Helper function to remove old files
+const removeOldFile = (filePath) => {
+  if (filePath && fs.existsSync(filePath)) {
+    fs.unlinkSync(filePath);
+  }
+};
+
 // Create a new user
-router.post("/", upload.single("image"), async (req, res) => {
+router.post("/", uploadFields, async (req, res) => {
   try {
     const aadhar = req.body.Aadhar;
     // checking for the existing user by Aadhar number
@@ -28,66 +43,102 @@ router.post("/", upload.single("image"), async (req, res) => {
         .status(404)
         .json({ error: "User with this Aadhar No. already exists." });
     }
+    // Attach file paths if exists
+    if (req.files.empImage)
+      req.body.empImage = `/uploads/${req.files.empImage[0].filename}`;
+    if (req.files.empSignature)
+      req.body.empSignature = `/uploads/${req.files.empSignature[0].filename}`;
+    if (req.files.managerSignature)
+      req.body.managerSignature = `/uploads/${req.files.managerSignature[0].filename}`;
 
-    // Attach image file path if exists
-    if (req.file) {
-      req.body.image = `/uploads/${req.file.filename}`;
-    }
-
-    // Create a new user instance & save it to database
+    // Create a new user instance
     const newUser = new User(req.body);
+
+    // Construct URL to specific user details section
+    const userDetailsUrl = `http://your-frontend-url.com/user/${aadhar}`;
+
+    // Generate QR code with all user info and a URL
+    const qrCodeData = await qrcode.toDataURL(
+      JSON.stringify({
+        aadhar,
+        name: req.body.name,
+        department: req.body.department,
+        userDetailsUrl,
+      })
+    );
+    newUser.qrCode = qrCodeData;
     const savedUser = await newUser.save();
 
     // Sending response status or message to front-end
-    res.status(200).json({ message: "New User Created" });
+    res.status(201).json({ message: "New User Created" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-// Update specific user using Aadhar No.
-router.put("/:aadhar", upload.single("image"), async (req, res) => {
+// Update user
+router.put("/:aadhar", uploadFields, async (req, res) => {
   const { aadhar } = req.params;
   try {
-    // checking for existing user
+    // Find the existing user by Aadhar
     const existingUser = await User.findOne({ Aadhar: aadhar });
     if (!existingUser) {
       return res.status(404).json({ error: "User not found" });
     }
-    // Parse the updates from the request body
-    const updates = JSON.parse(req.body.updates || "[]");
+
+    // Object to hold updated fields
     const updatedFields = {};
 
-    // updating each field value recieved from frontend
+    // Handle new image uploads and remove old files
+    if (req.files && req.files.empImage) {
+      if (existingUser.empImage) {
+        removeOldFile(path.join(__dirname, "..", existingUser.empImage));
+      }
+      updatedFields.empImage = `/uploads/${req.files.empImage[0].filename}`;
+    }
+
+    if (req.files && req.files.empSignature) {
+      if (existingUser.empSignature) {
+        removeOldFile(path.join(__dirname, "..", existingUser.empSignature));
+      }
+      updatedFields.empSignature = `/uploads/${req.files.empSignature[0].filename}`;
+    }
+
+    if (req.files && req.files.managerSignature) {
+      if (existingUser.managerSignature) {
+        removeOldFile(
+          path.join(__dirname, "..", existingUser.managerSignature)
+        );
+      }
+      updatedFields.managerSignature = `/uploads/${req.files.managerSignature[0].filename}`;
+    }
+
+    // Parse the updates from the request body
+    const updates = JSON.parse(req.body.updates || "[]");
+
+    // Apply field updates from the request
     updates.forEach((update) => {
       updatedFields[update.field] = update.value;
     });
 
-    // Handle the image file if it's uploaded
-    if (req.file) {
-      if (existingUser.image) {
-        fs.unlinkSync(path.join(__dirname, "..", existingUser.image));
-      }
-      updatedFields.image = `/uploads/${req.file.filename}`;
-    }
-
-    // Update the user with only provided fields
+    // Update the user with the provided fields
     const updatedUser = await User.findOneAndUpdate(
       { Aadhar: aadhar },
       { $set: updatedFields },
       { new: true }
     );
 
-    // sending response status and message to frontend
+    // Respond with updated user data
     res
       .status(200)
       .json({ message: "User Details Updated", user: updatedUser });
   } catch (error) {
+    console.error("Update error:", error);
     res.status(500).json({ error: error.message });
   }
 });
 
-// Delete specific user by Aadhar number
+// Delete User
 router.delete("/:aadhar", async (req, res) => {
   const { aadhar } = req.params;
   try {
@@ -96,15 +147,14 @@ router.delete("/:aadhar", async (req, res) => {
     if (!deletedUser) {
       return res.status(404).json({ error: "User not found" });
     }
-    // Remove the user's image from the file system if it exists
-    if (user.image) {
-      const imagePath = path.join(__dirname, "..", user.image);
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath);
-      }
-    }
+
+    // Remove associated files if they exist
+    removeOldFile(path.join(__dirname, "..", user.empImage));
+    removeOldFile(path.join(__dirname, "..", user.empSignature));
+    removeOldFile(path.join(__dirname, "..", user.managerSignature));
+
     // Sending response status or message to front-end
-    res.status(200).json({ message: "User deleted successfully" });
+    res.status(200).json({ message: "User Deleted Successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

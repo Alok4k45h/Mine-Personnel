@@ -101,7 +101,10 @@ const UserSchema = new mongoose.Schema(
       // type: Number,
       // require: true,
     },
-    image: { type: String },
+    empImage: {},
+    empSignature: {},
+    managerSignature: {},
+    qrCode: {},
   },
   { timestamps: true }
 );

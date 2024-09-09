@@ -1,0 +1,88 @@
+.id-card {
+  background-color: white;
+  height: 450px;
+  width: 625px;
+}
+
+.id-header {
+  background-color: #3b3a7a;
+}
+
+.mcl-logo {
+  width: 165px;
+  height: 85px;
+  border-radius: 5px;
+}
+
+.mcl-logo-back {
+  width: 250px;
+  height: 85px;
+  margin-right: auto !important;
+}
+
+.header-h1 {
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.header-dsg {
+  color: orange;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.header-h3 {
+  font-size: 14px;
+  color: white;
+}
+
+.empid-image {
+  width: 100px;
+  height: 100px;
+}
+
+.emp-name {
+  font-size: 20px;
+  font-weight: 600;
+  text-align: start !important;
+}
+
+.id-para {
+  font-size: 14px;
+  text-align: start !important;
+}
+
+.id-sign {
+  width: 100px;
+  height: 50px;
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.IDback-note {
+  background-color: #29754b;
+  color: white;
+}
+
+.span-note {
+  color: orange;
+  font-weight: 700;
+}
+
+.span-NT {
+  color: orange;
+  font-weight: 500;
+}
+
+.span-DG {
+  color: orange;
+  font-weight: 500;
+}
+
+.span-msg {
+  color: orange;
+  font-weight: 500;
+}

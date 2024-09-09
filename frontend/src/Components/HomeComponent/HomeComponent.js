@@ -9,10 +9,9 @@ function HomeComponent() {
           alt=""
           className=""
         />
-        <h1 className="banner-heading mb-3">SIARMAL OCP PERSONNEL</h1>
-        <p className="banner-caption mb-4">
-          Web Application for Employee Management
-        </p>
+        <h1 className="banner-h1 mb-3">SIARMAL OPENCAST PROJECT</h1>
+        <h2 className="banner-h1 mb-3">MAHALAXMI AREA</h2>
+        <h3 className="banner-h1 mb-3">MCL</h3>
         <img
           src="https://cdn.pixabay.com/animation/2022/07/29/03/42/03-42-11-849_512.gif"
           alt=""

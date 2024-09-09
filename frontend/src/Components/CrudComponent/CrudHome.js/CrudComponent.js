@@ -100,7 +100,7 @@ function CrudComponent() {
               />
             </p>
           )}
-          {error && <p className="pt-5 pb-5 loading text-white">{error}</p>}
+          {error && <p className="pt-5 pb-5 loading text-danger">{error}</p>}
           {selectedComponent === "UserData" && (
             <SearchComponent UserData={users} />
           )}

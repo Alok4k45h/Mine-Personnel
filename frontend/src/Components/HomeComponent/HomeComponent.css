@@ -4,16 +4,11 @@
   background-size: cover;
   position: relative;
 }
-.banner-heading {
+.banner-h1 {
   color: white;
-  font-family: "Roboto";
+  font-family: "Protest Revolution", sans-serif;
+  font-style: normal;
   font-size: 45px;
-  font-weight: 300;
-}
-.banner-caption {
-  color: #f5f7fa;
-  font-family: "Roboto";
-  font-size: 24px;
   font-weight: 300;
 }
 
