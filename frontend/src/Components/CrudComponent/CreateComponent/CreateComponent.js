@@ -65,14 +65,13 @@ const CreateComponent = () => {
     if (!formData.FathersName)
       tempErrors.FathersName = "Father's Name is required";
     if (!formData.Aadhar || !aadharRegex.test(formData.Aadhar))
-      tempErrors.Aadhar = "Valid Aadhar number is required (12 digits)";
+      tempErrors.Aadhar = "Valid Aadhar number is required";
     if (!formData.Contact || !contactRegex.test(formData.Contact))
-      tempErrors.Contact = "Valid contact number is required (10 digits)";
+      tempErrors.Contact = "Valid number is required";
     if (!formData.EmergencyNo || !contactRegex.test(formData.EmergencyNo))
-      tempErrors.EmergencyNo = "Valid emergency number is required (10 digits)";
+      tempErrors.EmergencyNo = "Valid number is required";
     if (formData.PAN && !panRegex.test(formData.PAN))
-      tempErrors.PAN = "Invalid PAN format";
-    if (!files.empImage) tempErrors.empImage = "Employee image is required";
+      tempErrors.PAN = "Invalid PAN";
 
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
@@ -91,8 +90,8 @@ const CreateComponent = () => {
     const { name } = e.target;
     const file = e.target.files[0];
 
-    if (file && file.size > 500 * 1024) {
-      setImageError(`${name} size should not exceed 500KB.`);
+    if (file && file.size > 200 * 1024) {
+      setImageError(`${name} size should not exceed 200KB.`);
       setFiles((prevState) => ({ ...prevState, [name]: null }));
     } else {
       setFiles((prevState) => ({ ...prevState, [name]: file }));
@@ -146,7 +145,9 @@ const CreateComponent = () => {
       <div className="row">
         <div className="col-12">
           <div className="form-container pt-5 pb-5">
-            <h2 className="pt-3 pb-3 text-white">Input User Details</h2>
+            <h2 className="pt-3 pb-3 text-white search-heading">
+              INPUT EMPLOYEE DETAILS
+            </h2>
             <form onSubmit={handleSubmit}>
               {fieldNames.map((field) => (
                 <div key={field} className="form-group col-12">
@@ -199,6 +200,9 @@ const CreateComponent = () => {
               <button type="submit" className="btn btn-outline-light">
                 Submit
               </button>
+              <p className="text-warning mt-3 mb-3">
+                Note - Upload Image within limit of 200 KB.
+              </p>
             </form>
 
             {message && <p className="pt-5 pb-5 res-message">{message}</p>}

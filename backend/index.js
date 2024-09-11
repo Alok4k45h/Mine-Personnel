@@ -25,5 +25,5 @@ app.use("/backend/user", userRoute);
 
 // app server listening on port 5000 with displaying successful connection message
 app.listen(port, () => {
-  console.log("Server is running on port 5000");
+  console.log("Server is running");
 });

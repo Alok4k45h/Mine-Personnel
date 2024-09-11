@@ -39,3 +39,21 @@ input[type="file"] {
 .image-input {
   background-color: transparent;
 }
+
+@media screen and (max-width: 768px) {
+  label {
+    padding: 4px;
+  }
+
+  input[type="text"] {
+    padding: 4px;
+  }
+
+  input[type="date"] {
+    padding: 4px;
+  }
+
+  input[type="file"] {
+    padding: 4px;
+  }
+}

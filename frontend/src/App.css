@@ -9,3 +9,10 @@
   font-weight: 700;
   color: white;
 }
+
+@media screen and (max-width: 768px) {
+  .res-message {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+}

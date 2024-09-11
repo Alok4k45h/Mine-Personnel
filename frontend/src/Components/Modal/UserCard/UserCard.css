@@ -13,7 +13,7 @@
 
 .user-card-desc {
   color: #323f4b;
-  font-family: "Roboto", sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 16px;
   font-weight: 500;
   margin-top: 24px;
@@ -88,4 +88,26 @@
 .person-position {
   font-family: "Merienda", sans-serif;
   font-size: 16px;
+}
+
+@media screen and (max-width: 768px) {
+  .emp-img {
+    height: 300px;
+    width: 300px;
+  }
+
+  .emp-sign {
+    height: 200px;
+    width: 300px;
+  }
+
+  .qr-code-img {
+    height: 175px;
+    width: 175px;
+  }
+
+  .manager-sign {
+    height: 200px;
+    width: 300px;
+  }
 }

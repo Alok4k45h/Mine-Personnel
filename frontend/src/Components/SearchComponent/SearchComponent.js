@@ -34,7 +34,7 @@ const SearchComponent = ({ UserData }) => {
   return (
     <div className="app-container">
       <div className="search-container">
-        <h1 className="search-heading">USER DIRECTORY</h1>
+        <h1 className="search-heading">EMPLOYEE DIRECTORY</h1>
         {/* Search Bar */}
         <div className="search-input-container shadow">
           <input
@@ -45,7 +45,7 @@ const SearchComponent = ({ UserData }) => {
             onChange={onChangeSearchInput}
           />
           <img
-            src="https://assets.ccbp.in/frontend/react-js/destinations-search-icon-img.png"
+            src="./searchIcon.png"
             alt="search icon"
             className="search-icon"
           />

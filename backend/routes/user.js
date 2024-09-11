@@ -55,17 +55,11 @@ router.post("/", uploadFields, async (req, res) => {
     const newUser = new User(req.body);
 
     // Construct URL to specific user details section
-    const userDetailsUrl = `http://your-frontend-url.com/user/${aadhar}`;
+    const userDetailsUrl = `https://socp-minepersonnel.onrender.com/id-card/${aadhar}`;
 
-    // Generate QR code with all user info and a URL
-    const qrCodeData = await qrcode.toDataURL(
-      JSON.stringify({
-        aadhar,
-        name: req.body.name,
-        department: req.body.department,
-        userDetailsUrl,
-      })
-    );
+    // Generate QR code with just the URL (this ensures it works as a link)
+    const qrCodeData = await qrcode.toDataURL(userDetailsUrl);
+
     newUser.qrCode = qrCodeData;
     const savedUser = await newUser.save();
 
@@ -165,6 +159,17 @@ router.get("/all", async (req, res) => {
   try {
     const users = await User.find();
     res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.get("/:aadhar", async (req, res) => {
+  const { aadhar } = req.params;
+  try {
+    const existingUser = await User.findOne({ Aadhar: aadhar });
+
+    res.status(200).json(existingUser);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

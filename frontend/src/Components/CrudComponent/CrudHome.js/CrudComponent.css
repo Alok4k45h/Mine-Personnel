@@ -9,11 +9,34 @@
 }
 
 .loading {
-  font-family: "Roboto";
+  font-family: "Protest Revolution", sans-serif;
+  font-style: italic;
   font-size: 2.5rem;
 }
 
 .loading-img {
   height: 100px;
   width: 100px;
+}
+
+@media screen and (max-width: 768px) {
+  .home-container {
+    background-image: url("https://d1oi3s9sr6ymrv.cloudfront.net/wp-content/uploads/2023/04/28125031/BANNER-DFG-DataFlow-Launches-Zest-User-Interface-To-Optimise-Efficiency-and-Minimise-Errors-Shutterstock_1487699606.jpg");
+    background-size: cover;
+  }
+
+  .side-container {
+    height: 50vh;
+  }
+
+  .loading {
+    font-family: "Protest Revolution", sans-serif;
+    font-style: italic;
+    font-size: 1.5rem;
+  }
+
+  .loading-img {
+    height: 80px;
+    width: 80px;
+  }
 }

@@ -121,7 +121,7 @@ const IDCard = ({ data }) => {
               <div className="col-8 p-2">
                 <div className="text-start">
                   <img
-                    src="./mclLogo.jpeg"
+                    src="./mclLogo.png"
                     alt="mcl-logo-img"
                     className="mcl-logo-back"
                   />

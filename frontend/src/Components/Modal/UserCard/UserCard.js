@@ -21,7 +21,7 @@ const UserCard = ({ data }) => {
 
   return (
     <div className="col-12 col-md-6 col-lg-4">
-      <div className="shadow user-item-card p-3 mb-3">
+      <div className="shadow-lg user-item-card p-3 mb-3">
         <h1 className="user-card-title">{data.EmployeeName}</h1>
         <h1 className="user-card-desc">Aadhar No.: {data.Aadhar}</h1>
 
@@ -151,7 +151,7 @@ const UserCard = ({ data }) => {
                             loading="lazy"
                           />
                           <h4 className="detail-section-desc text-center">
-                            Scan QR Code
+                            QR Code
                           </h4>
                         </div>
                       )}

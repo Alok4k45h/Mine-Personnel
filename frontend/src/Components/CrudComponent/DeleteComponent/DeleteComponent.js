@@ -27,7 +27,7 @@ const DeleteUser = () => {
     <div className="container pt-5 pb-5">
       <div className="row">
         <div className="col-12">
-          <h2 className="text-white">Delete User</h2>
+          <h2 className="text-white search-heading">DELETE EMPLOYEE DETAIL</h2>
         </div>
         <div className="col-12">
           <form onSubmit={handleSubmit}>
@@ -41,7 +41,7 @@ const DeleteUser = () => {
             />
             <div className="text-center">
               <button type="submit" className="btn btn-outline-light">
-                Delete User
+                Delete
               </button>
             </div>
           </form>

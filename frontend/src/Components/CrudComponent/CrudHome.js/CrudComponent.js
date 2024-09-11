@@ -5,6 +5,7 @@ import CreateComponent from "../CreateComponent/CreateComponent";
 import UpdateComponent from "../UpdateComponent/UpdateComponent";
 import DeleteComponent from "../DeleteComponent/DeleteComponent";
 import "./CrudComponent.css";
+import IdCardComponent from "../IdCardComponent/IdCardComponent";
 
 function CrudComponent() {
   const [selectedComponent, setSelectedComponent] = useState("UserData");
@@ -86,6 +87,18 @@ function CrudComponent() {
               Delete User
             </button>
           </div>
+
+          {/*ID Card button */}
+          <div>
+            <button
+              className={`btn btn-outline-light w-50 p-3 m-3 ${
+                selectedComponent === "IdCard" ? "active" : ""
+              }`}
+              onClick={() => handleComponentChange("IdCard")}
+            >
+              ID Card
+            </button>
+          </div>
         </div>
 
         {/* Main Content Container */}
@@ -93,11 +106,7 @@ function CrudComponent() {
           {loading && (
             <p className="pt-5 pb-5 loading text-white">
               Loading
-              <img
-                src="https://cdn.pixabay.com/animation/2022/07/29/03/42/03-42-11-849_512.gif"
-                alt=""
-                className="loading-img"
-              />
+              <img src="./loadingImg.webp" alt="" className="loading-img" />
             </p>
           )}
           {error && <p className="pt-5 pb-5 loading text-danger">{error}</p>}
@@ -107,6 +116,7 @@ function CrudComponent() {
           {selectedComponent === "CreateUser" && <CreateComponent />}
           {selectedComponent === "UpdateUser" && <UpdateComponent />}
           {selectedComponent === "DeleteUser" && <DeleteComponent />}
+          {selectedComponent === "IdCard" && <IdCardComponent />}
         </div>
       </div>
     </div>
