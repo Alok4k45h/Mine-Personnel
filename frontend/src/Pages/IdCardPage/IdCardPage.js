@@ -14,7 +14,7 @@ const IDCardPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/backend/user/${Aadhaar}`
+          `https://socp-minepersonnel-backend.onrender.com/backend/user/${Aadhaar}`
         );
         setUser(response.data);
       } catch (error) {

@@ -15,7 +15,7 @@ const DeleteUser = () => {
     e.preventDefault();
     try {
       const response = await axios.delete(
-        `http://localhost:5000/backend/user/${Aadhar}`
+        `https://socp-minepersonnel-backend.onrender.com/backend/user/${Aadhar}`
       );
       setMessage(response.data.message);
     } catch (error) {

@@ -16,7 +16,7 @@ const IdCardComponent = () => {
     e.preventDefault(); // Prevent default form submission behavior
     try {
       const response = await axios.get(
-        `http://localhost:5000/backend/user/${Aadhar}` // API request to fetch user data
+        `https://socp-minepersonnel-backend.onrender.com/backend/user/${Aadhar}` // API request to fetch user data
       );
       // Navigate to the specific ID card URL with Aadhaar number and pass the fetched user data
       navigate(`/id-card/${Aadhar}`, { state: { user: response.data } });

@@ -117,7 +117,7 @@ const CreateComponent = () => {
       });
 
       const response = await axios.post(
-        "http://localhost:5000/backend/user",
+        "https://socp-minepersonnel-backend.onrender.com/backend/user",
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },
