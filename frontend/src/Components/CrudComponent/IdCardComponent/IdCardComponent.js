@@ -16,7 +16,7 @@ const IdCardComponent = () => {
     e.preventDefault(); // Prevent default form submission behavior
     try {
       const response = await axios.get(
-        `https://socp-minepersonnel-backend.onrender.com/backend/user/${Aadhar}` // API request to fetch user data
+        `http://localhost:5000/backend/user/${Aadhar}` // API request to fetch user data
       );
       // Navigate to the specific ID card URL with Aadhaar number and pass the fetched user data
       navigate(`/id-card/${Aadhar}`, { state: { user: response.data } });
@@ -29,7 +29,7 @@ const IdCardComponent = () => {
     <div className="container pt-5 pb-5">
       <div className="row">
         <div className="col-12">
-          <h2 className="text-white search-heading">EMPLOYEE ID CARD</h2>
+          <h2 className="search-heading">EMPLOYEE ID CARD</h2>
         </div>
         <div className="col-12">
           <form onSubmit={handleSubmit}>
@@ -42,7 +42,7 @@ const IdCardComponent = () => {
               required
             />
             <div className="text-center">
-              <button type="submit" className="btn btn-outline-light">
+              <button type="submit" className="btn btn-warning">
                 Submit
               </button>
             </div>

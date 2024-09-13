@@ -1,6 +1,7 @@
 .home-container {
-  background-image: url("https://d1oi3s9sr6ymrv.cloudfront.net/wp-content/uploads/2023/04/28125031/BANNER-DFG-DataFlow-Launches-Zest-User-Interface-To-Optimise-Efficiency-and-Minimise-Errors-Shutterstock_1487699606.jpg");
+  background-image: url("https://res.cloudinary.com/alokkumar07/image/upload/v1726248198/socp_employees/homeBackground_ycaxki.webp");
   background-size: cover;
+  min-height: 100vh;
 }
 
 .side-container {
@@ -21,7 +22,7 @@
 
 @media screen and (max-width: 768px) {
   .home-container {
-    background-image: url("https://d1oi3s9sr6ymrv.cloudfront.net/wp-content/uploads/2023/04/28125031/BANNER-DFG-DataFlow-Launches-Zest-User-Interface-To-Optimise-Efficiency-and-Minimise-Errors-Shutterstock_1487699606.jpg");
+    background-image: url("https://res.cloudinary.com/alokkumar07/image/upload/v1726248198/socp_employees/homeBackground_ycaxki.webp");
     background-size: cover;
   }
 

@@ -15,7 +15,7 @@ const DeleteUser = () => {
     e.preventDefault();
     try {
       const response = await axios.delete(
-        `https://socp-minepersonnel-backend.onrender.com/backend/user/${Aadhar}`
+        `http://localhost:5000/backend/user/${Aadhar}`
       );
       setMessage(response.data.message);
     } catch (error) {
@@ -27,7 +27,7 @@ const DeleteUser = () => {
     <div className="container pt-5 pb-5">
       <div className="row">
         <div className="col-12">
-          <h2 className="text-white search-heading">DELETE EMPLOYEE DETAIL</h2>
+          <h2 className="search-heading">DELETE EMPLOYEE DETAIL</h2>
         </div>
         <div className="col-12">
           <form onSubmit={handleSubmit}>
@@ -40,7 +40,7 @@ const DeleteUser = () => {
               required
             />
             <div className="text-center">
-              <button type="submit" className="btn btn-outline-light">
+              <button type="submit" className="btn btn-warning">
                 Delete
               </button>
             </div>

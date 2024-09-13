@@ -13,12 +13,12 @@
 }
 
 .search-heading {
-  text-align: center;
-  color: white;
   font-family: "Protest Revolution", sans-serif;
   font-style: normal;
   font-size: 1.75rem;
   font-weight: 700;
+  text-align: center;
+  color: orange;
   margin-bottom: 32px;
 }
 

@@ -18,7 +18,7 @@ function CrudComponent() {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "https://socp-minepersonnel-backend.onrender.com/backend/user/all"
+          "http://localhost:5000/backend/user/all"
         );
         setUsers(response.data);
         setLoading(false);
@@ -106,7 +106,11 @@ function CrudComponent() {
           {loading && (
             <p className="pt-5 pb-5 loading text-white">
               Loading
-              <img src="./loadingImg.webp" alt="" className="loading-img" />
+              <img
+                src="https://res.cloudinary.com/alokkumar07/image/upload/v1726239811/socp_employees/loadingImg_fjmbyf.webp"
+                alt=""
+                className="loading-img"
+              />
             </p>
           )}
           {error && <p className="pt-5 pb-5 loading text-danger">{error}</p>}

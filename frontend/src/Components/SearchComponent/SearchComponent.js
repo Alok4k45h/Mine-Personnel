@@ -45,7 +45,7 @@ const SearchComponent = ({ UserData }) => {
             onChange={onChangeSearchInput}
           />
           <img
-            src="./searchIcon.png"
+            src="https://res.cloudinary.com/alokkumar07/image/upload/v1726239828/socp_employees/searchIcon_t0ufb1.png"
             alt="search icon"
             className="search-icon"
           />
@@ -59,10 +59,7 @@ const SearchComponent = ({ UserData }) => {
         </ul>
 
         {/* Show Button */}
-        <button
-          onClick={toggleShowAll}
-          className="btn btn-outline-light mt-5 mb-5"
-        >
+        <button onClick={toggleShowAll} className="btn btn-warning mt-5 mb-5">
           {showAll ? "Close" : "Show All"}
         </button>
       </div>

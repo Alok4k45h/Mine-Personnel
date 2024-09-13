@@ -1,29 +1,39 @@
-// creating app server using express and importing the required modules
+// Importing required modules
 const express = require("express");
 const cors = require("cors");
-const app = express();
 const path = require("path");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 
-// importing routes file
+// Load environment variables
+dotenv.config();
+
+// Initialize Express app
+const app = express();
+
+// Importing routes
 const userRoute = require("./routes/user");
+
+// Middleware setup
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Establishing connection with mongodb atlas
-dotenv.config();
-app.use(express.json());
+// MongoDB connection
 mongoose
   .connect(process.env.MONGO_URL)
-  .then(console.log("mongodb connected successfully")) //after succussfull connection, displaying successfull message
-  .catch((err) => console.log(err)); // after failure, displaying error message
+  .then(() => console.log("MongoDB connected successfully"))
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
+    process.exit(1); // Exit process on failure
+  });
 
-const port = process.env.PORT || 5000;
-// telling app server to use all imported file
-app.use(cors());
+// Route handling
 app.use("/backend/user", userRoute);
 
-// app server listening on port 5000 with displaying successful connection message
-app.listen(port, () => {
-  console.log("Server is running");
+// Port setup
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

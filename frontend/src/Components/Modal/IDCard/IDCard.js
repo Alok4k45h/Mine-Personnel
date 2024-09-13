@@ -27,14 +27,14 @@ const IDCard = ({ data }) => {
 
   return (
     <div className="container">
-      <div className="row">
+      <div className="row overflow-auto">
         {/* Front Side of ID Card */}
-        <div className="col-12 mb-3">
+        <div className="col-12 col-md-6 mb-3">
           <div className="id-card p-3">
             <div className="row id-header p-2">
               <div className="col-4 text-center">
                 <img
-                  src="./mclLogo.jpeg"
+                  src="https://res.cloudinary.com/alokkumar07/image/upload/v1726235667/socp_employees/mclLogo_d71zvn.png"
                   alt="mcl-logo-img"
                   className="mcl-logo"
                 />
@@ -57,13 +57,9 @@ const IDCard = ({ data }) => {
                 <p className="id-para text-center text-capitalize">
                   ID Card No: {Id}
                 </p>
+                <img src={empImage} alt="Employee" className="empid-image" />
                 <img
-                  src={`https://socp-minepersonnel-backend.onrender.com${empImage}`}
-                  alt="Employee"
-                  className="empid-image"
-                />
-                <img
-                  src={`https://socp-minepersonnel-backend.onrender.com${empSignature}`}
+                  src={empSignature}
                   alt="Employee Signature"
                   className="id-sign"
                 />
@@ -83,7 +79,7 @@ const IDCard = ({ data }) => {
                 <p className="id-para">Date of Birth: {Birth}</p>
                 <div className="text-end">
                   <img
-                    src={`https://socp-minepersonnel-backend.onrender.com${managerSignature}`}
+                    src={managerSignature}
                     alt="Manager Signature"
                     className="id-sign"
                   />
@@ -115,13 +111,13 @@ const IDCard = ({ data }) => {
         </div>
 
         {/* Back Side of ID Card */}
-        <div className="col-12 mb-3">
+        <div className="col-12 col-md-6 mb-3">
           <div className="id-card p-3">
             <div className="row id-body">
               <div className="col-8 p-2">
                 <div className="text-start">
                   <img
-                    src="./mclLogo.png"
+                    src="https://res.cloudinary.com/alokkumar07/image/upload/v1726235667/socp_employees/mclLogo_d71zvn.png"
                     alt="mcl-logo-img"
                     className="mcl-logo-back"
                   />
@@ -148,10 +144,11 @@ const IDCard = ({ data }) => {
                 <span className="span-DG text-uppercase p-2">
                   {Designation}
                 </span>
-                of Siarmal OCP and must be produced on demand. Its loss should
-                be reported immediately to the Safety Office (Siarmal OCP) &
-                must be surrendered on transfer/retirement/resignation or
-                discharge from service. <br />
+                of {ContractorName}-SIARMAL OCP and must be produced on demand.
+                Its loss should be reported immediately to the Safety Office
+                (Siarmal OCP) & must be surrendered on
+                transfer/retirement/resignation or discharge from service.{" "}
+                <br />
                 <span className="span-msg">
                   If found please submit the card to Safety Office (Siarmal
                   OCP).

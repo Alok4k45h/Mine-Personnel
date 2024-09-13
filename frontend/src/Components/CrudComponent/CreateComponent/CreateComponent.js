@@ -117,7 +117,7 @@ const CreateComponent = () => {
       });
 
       const response = await axios.post(
-        "https://socp-minepersonnel-backend.onrender.com/backend/user",
+        "http://localhost:5000/backend/user",
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -145,9 +145,7 @@ const CreateComponent = () => {
       <div className="row">
         <div className="col-12">
           <div className="form-container pt-5 pb-5">
-            <h2 className="pt-3 pb-3 text-white search-heading">
-              INPUT EMPLOYEE DETAILS
-            </h2>
+            <h2 className="pt-3 pb-3 search-heading">INPUT EMPLOYEE DETAILS</h2>
             <form onSubmit={handleSubmit}>
               {fieldNames.map((field) => (
                 <div key={field} className="form-group col-12">
@@ -197,7 +195,7 @@ const CreateComponent = () => {
 
               {imageError && <p className="text-danger">{imageError}</p>}
 
-              <button type="submit" className="btn btn-outline-light">
+              <button type="submit" className="btn btn-warning">
                 Submit
               </button>
               <p className="text-warning mt-3 mb-3">

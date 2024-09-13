@@ -97,7 +97,7 @@ const UpdateUser = () => {
         formDataToSend.append("managerSignature", managerSignature);
 
       const response = await axios.put(
-        `https://socp-minepersonnel-backend.onrender.com/backend/user/${formData.Aadhar}`,
+        `http://localhost:5000/backend/user/${formData.Aadhar}`,
         formDataToSend,
         {
           headers: {
@@ -117,7 +117,7 @@ const UpdateUser = () => {
     <div className="container">
       <div className="row">
         <div className="col-12">
-          <h2 className="text-white search-heading">UPDATE EMPLOYEE DETAILS</h2>
+          <h2 className="search-heading">UPDATE EMPLOYEE DETAILS</h2>
         </div>
         <div className="col-12">
           <form onSubmit={handleSubmit}>
@@ -242,7 +242,7 @@ const UpdateUser = () => {
             {error && <p className="text-danger">{error}</p>}
 
             <div className="text-center">
-              <button type="submit" className="btn btn-outline-light">
+              <button type="submit" className="btn btn-warning">
                 Update
               </button>
               <p className="text-warning mt-3 mb-3">

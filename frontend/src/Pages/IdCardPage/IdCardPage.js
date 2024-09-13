@@ -14,7 +14,7 @@ const IDCardPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://socp-minepersonnel-backend.onrender.com/backend/user/${Aadhaar}`
+          `http://localhost:5000/backend/user/${Aadhaar}`
         );
         setUser(response.data);
       } catch (error) {
@@ -39,7 +39,7 @@ const IDCardPage = () => {
           ) : (
             <p className="text-white">{message || "Loading user data..."}</p>
           )}
-          <button className="btn btn-outline-light mt-5" onClick={goBack}>
+          <button className="btn btn-warning mt-5" onClick={goBack}>
             HomePage
           </button>
         </div>
