@@ -121,7 +121,7 @@ const UpdateUser = () => {
         </div>
         <div className="col-12">
           <form onSubmit={handleSubmit}>
-            <div>
+            <div data-aos="zoom-in-up">
               <input
                 type="text"
                 id="aadhar"
@@ -139,7 +139,7 @@ const UpdateUser = () => {
               />
             </div>
             {formData.updates.map((update, index) => (
-              <div key={index}>
+              <div key={index} data-aos="zoom-in-up">
                 <label className="mr-3 mb-3 text-light label-style">
                   Update Field:
                   <select
@@ -199,7 +199,7 @@ const UpdateUser = () => {
               </div>
             ))}
 
-            <div className="text-center">
+            <div className="text-center" data-aos="zoom-in">
               <button
                 type="button"
                 className="btn btn-light mb-3"
@@ -209,7 +209,10 @@ const UpdateUser = () => {
               </button>
             </div>
 
-            <label className="text-dark bg-white image-input w-60">
+            <label
+              className="text-dark bg-white image-input w-60"
+              data-aos="zoom-in-down"
+            >
               Upload Employee Image:
               <input
                 type="file"
@@ -219,7 +222,10 @@ const UpdateUser = () => {
               />
             </label>
 
-            <label className="text-dark bg-white p-2 image-input">
+            <label
+              className="text-dark bg-white p-2 image-input"
+              data-aos="zoom-in-down"
+            >
               Upload Employee Signature:
               <input
                 type="file"
@@ -229,7 +235,10 @@ const UpdateUser = () => {
               />
             </label>
 
-            <label className="text-dark bg-white p-2 image-input">
+            <label
+              className="text-dark bg-white p-2 image-input"
+              data-aos="zoom-in-down"
+            >
               Upload Manager Signature:
               <input
                 type="file"

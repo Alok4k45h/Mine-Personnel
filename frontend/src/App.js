@@ -5,6 +5,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import IdCardPage from "./Pages/IdCardPage/IdCardPage";
 
+//importing AOS library for animation (first install it by $ npm i aos)
+import AOS from "aos";
+import "aos/dist/aos.css"; // You can also use <link> for styles
+
+// aos library initialising here
+AOS.init({
+  duration: 1000, // here 1000 is millisecond for animation, more value more duration of animation
+});
+
 function App() {
   return (
     <div className="App">

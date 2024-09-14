@@ -50,9 +50,9 @@ router.post("/", uploadFields, async (req, res) => {
     // Ensure images are properly attached from Cloudinary response
     if (req.files.empImage && req.files.empImage[0]) {
       userFields.empImage =
-        req.files.empImage[0].path || req.files.empImage[0].secure_url; // Cloudinary provides path
+        req.files.empImage[0].path || req.files.empImage[0].secure_url;
       userFields.empImageId =
-        req.files.empImage[0].filename || req.files.empImage[0].public_id; // public_id
+        req.files.empImage[0].filename || req.files.empImage[0].public_id;
     }
     if (req.files.empSignature && req.files.empSignature[0]) {
       userFields.empSignature =
@@ -76,7 +76,7 @@ router.post("/", uploadFields, async (req, res) => {
     // Construct URL to specific user details section
     const userDetailsUrl = `https://socp-minepersonnel.onrender.com/id-card/${aadhar}`;
 
-    // Generate QR code with just the URL
+    // Generate QR code
     const qrCodeData = await qrcode.toDataURL(userDetailsUrl);
     newUser.qrCode = qrCodeData;
 
@@ -104,23 +104,24 @@ router.put("/:aadhar", uploadFields, async (req, res) => {
     // Handle image uploads and update fields
     if (req.files && req.files.empImage && req.files.empImage[0]) {
       if (existingUser.empImageId) {
-        await cloudinary.uploader.destroy(existingUser.empImageId); // Delete old image from Cloudinary
+        // Delete old image from Cloudinary
+        await cloudinary.uploader.destroy(existingUser.empImageId);
       }
       updatedFields.empImage =
-        req.files.empImage[0].path || req.files.empImage[0].secure_url; // Use secure_url for new image
+        req.files.empImage[0].path || req.files.empImage[0].secure_url;
       updatedFields.empImageId =
-        req.files.empImage[0].filename || req.files.empImage[0].public_id; // Use public_id for new image
+        req.files.empImage[0].filename || req.files.empImage[0].public_id;
     }
 
     if (req.files && req.files.empSignature && req.files.empSignature[0]) {
       if (existingUser.empSignatureId) {
-        await cloudinary.uploader.destroy(existingUser.empSignatureId); // Delete old signature from Cloudinary
+        await cloudinary.uploader.destroy(existingUser.empSignatureId);
       }
       updatedFields.empSignature =
-        req.files.empSignature[0].path || req.files.empSignature[0].secure_url; // Use secure_url for new signature
+        req.files.empSignature[0].path || req.files.empSignature[0].secure_url;
       updatedFields.empSignatureId =
         req.files.empSignature[0].filename ||
-        req.files.empSignature[0].public_id; // Use public_id for new signature
+        req.files.empSignature[0].public_id;
     }
 
     if (
@@ -129,20 +130,18 @@ router.put("/:aadhar", uploadFields, async (req, res) => {
       req.files.managerSignature[0]
     ) {
       if (existingUser.managerSignatureId) {
-        await cloudinary.uploader.destroy(existingUser.managerSignatureId); // Delete old manager signature from Cloudinary
+        await cloudinary.uploader.destroy(existingUser.managerSignatureId);
       }
       updatedFields.managerSignature =
         req.files.managerSignature[0].path ||
-        req.files.managerSignature[0].secure_url; // Use secure_url for new manager signature
+        req.files.managerSignature[0].secure_url;
       updatedFields.managerSignatureId =
         req.files.managerSignature[0].filename ||
-        req.files.managerSignature[0].public_id; // Use public_id for new manager signature
+        req.files.managerSignature[0].public_id;
     }
 
-    // Parse the updates from the request body
+    // Parse the updates from the request body and Apply field updates from the request
     const updates = JSON.parse(req.body.updates || "[]");
-
-    // Apply field updates from the request
     updates.forEach((update) => {
       updatedFields[update.field] = update.value;
     });
@@ -174,7 +173,7 @@ router.delete("/:aadhar", async (req, res) => {
 
     // Remove associated Cloudinary files
     if (deletedUser.empImageId) {
-      await cloudinary.uploader.destroy(deletedUser.empImageId); // Remove image using public_id
+      await cloudinary.uploader.destroy(deletedUser.empImageId); // Remove image
     }
     if (deletedUser.empSignatureId) {
       await cloudinary.uploader.destroy(deletedUser.empSignatureId); // Remove signature
@@ -199,7 +198,7 @@ router.get("/all", async (req, res) => {
   }
 });
 
-// Get user by Aadhar
+// Get specific user by Aadhar
 router.get("/:aadhar", async (req, res) => {
   const { aadhar } = req.params;
   try {

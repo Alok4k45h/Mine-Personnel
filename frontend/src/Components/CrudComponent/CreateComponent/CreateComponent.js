@@ -148,7 +148,11 @@ const CreateComponent = () => {
             <h2 className="pt-3 pb-3 search-heading">INPUT EMPLOYEE DETAILS</h2>
             <form onSubmit={handleSubmit}>
               {fieldNames.map((field) => (
-                <div key={field} className="form-group col-12">
+                <div
+                  key={field}
+                  className="form-group col-12"
+                  data-aos="zoom-in-up"
+                >
                   <label className="text-dark bg-white p-2 image-input">
                     {field.replace(/([A-Z])/g, " $1").trim()}:
                     <input
@@ -180,7 +184,11 @@ const CreateComponent = () => {
 
               {["empImage", "empSignature", "managerSignature"].map(
                 (fileField) => (
-                  <div key={fileField} className="form-group col-12">
+                  <div
+                    key={fileField}
+                    className="form-group col-12"
+                    data-aos="zoom-in-down"
+                  >
                     <label className="text-dark bg-white p-2 image-input">
                       Upload {fileField.replace(/([A-Z])/g, " $1").trim()}:
                       <input

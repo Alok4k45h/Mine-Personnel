@@ -31,7 +31,7 @@ const IdCardComponent = () => {
         <div className="col-12">
           <h2 className="search-heading">EMPLOYEE ID CARD</h2>
         </div>
-        <div className="col-12">
+        <div className="col-12" data-aos="zoom-in-down">
           <form onSubmit={handleSubmit}>
             <input
               type="text"

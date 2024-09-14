@@ -29,7 +29,7 @@ const DeleteUser = () => {
         <div className="col-12">
           <h2 className="search-heading">DELETE EMPLOYEE DETAIL</h2>
         </div>
-        <div className="col-12">
+        <div className="col-12" data-aos="zoom-in-down">
           <form onSubmit={handleSubmit}>
             <input
               type="text"

@@ -21,19 +21,19 @@ const IDCardPage = () => {
         setMessage(error.response?.data?.error || "Error fetching user data");
       }
     };
-
     fetchData();
   }, [Aadhaar]); // Dependency array ensures fetching happens only when Aadhaar changes
 
+  // Go back to homepage
   const goBack = () => {
-    navigate("/"); // Go back to homepage
+    navigate("/");
   };
 
   return (
     <div className="container-fluid home-container pt-5 pb-5">
       <div className="row">
         <div className="col-12">
-          <h2 className="text-white search-heading">Employee ID Card</h2>
+          <h2 className="search-heading">Employee ID Card</h2>
           {user ? (
             <IDCard data={user} />
           ) : (

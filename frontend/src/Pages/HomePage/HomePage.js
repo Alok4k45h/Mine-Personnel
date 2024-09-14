@@ -6,11 +6,10 @@ function HomePage() {
   const [showHome, setShowHome] = useState(true);
 
   useEffect(() => {
-    // Timer to switch the component
+    // Timer to switch the component & Display home component for 5 seconds
     const timer = setTimeout(() => {
       setShowHome(false);
-    }, 5000); // Display home component for 5 seconds
-
+    }, 5000);
     // Cleanup timer on component unmount
     return () => clearTimeout(timer);
   }, []);

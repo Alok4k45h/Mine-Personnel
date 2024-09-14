@@ -144,7 +144,7 @@ const IDCard = ({ data }) => {
                 <span className="span-DG text-uppercase p-2">
                   {Designation}
                 </span>
-                of {ContractorName}-SIARMAL OCP and must be produced on demand.
+                of {ContractorName}- SIARMAL OCP and must be produced on demand.
                 Its loss should be reported immediately to the Safety Office
                 (Siarmal OCP) & must be surrendered on
                 transfer/retirement/resignation or discharge from service.{" "}
