@@ -22,6 +22,45 @@
   width: 200px;
 }
 
+.hr-footer {
+  color: white;
+}
+
+.icon {
+  color: #c8c9dd;
+  font-size: 18px;
+}
+
+.section-copyright {
+  color: white;
+  font-family: "Roboto";
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.logo {
+  height: 35px;
+  width: 35px;
+  border-radius: 40px;
+  margin-right: 10px;
+  color: white;
+}
+
+.facebook:hover {
+  color: #8a3ab9;
+  cursor: pointer;
+}
+
+.linkedin:hover {
+  color: #0072b1;
+  cursor: pointer;
+}
+
+.github:hover {
+  color: #171515;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
   .shovel-gif {
     width: 300px;
@@ -36,5 +75,10 @@
   .loading-logo {
     height: 125px;
     width: 125px;
+  }
+
+  .section-copyright {
+    font-size: 15px;
+    padding: 5px;
   }
 }

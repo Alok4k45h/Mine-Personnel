@@ -1,4 +1,10 @@
 import React from "react";
+import {
+  FaCopyright,
+  FaFacebook,
+  FaLinkedinIn,
+  FaGithub,
+} from "react-icons/fa";
 import "./HomeComponent.css";
 function HomeComponent() {
   return (
@@ -17,6 +23,39 @@ function HomeComponent() {
           alt=""
           className="loading-logo"
         />
+        <hr className="hr-footer" />
+        <FaCopyright className="icon mr-2" />
+        <span className="section-copyright">
+          SIARMAL OCP MCL- 2024 | Designed & Developed by Alok Kumar | MT @ MCL
+          CIL
+        </span>
+        <br />
+        <span className="section-copyright text-warning">CONNECT ME ON</span>
+        <div className="d-flex flex-row justify-content-center mt-3 mb-3">
+          <a
+            href="https://www.facebook.com/kr.alok07/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FaFacebook className="logo facebook" />
+          </a>
+
+          <a
+            href="https://www.linkedin.com/in/07alokkumar"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FaLinkedinIn className="logo linkedin" />
+          </a>
+
+          <a
+            href="https://github.com/Alok4k45h"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FaGithub className="logo github" />
+          </a>
+        </div>
       </div>
     </div>
   );
