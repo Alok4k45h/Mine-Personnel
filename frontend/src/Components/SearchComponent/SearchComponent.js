@@ -39,6 +39,7 @@ const SearchComponent = ({ UserData }) => {
         <div className="search-input-container shadow">
           <input
             type="search"
+            id="search-input"
             className="search-input"
             placeholder="Search By Employee Name or Aadhar No."
             value={searchInput}

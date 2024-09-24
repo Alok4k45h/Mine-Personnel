@@ -161,6 +161,7 @@ const CreateComponent = () => {
                           ? "date"
                           : "text"
                       }
+                      id={field}
                       name={field}
                       value={formData[field]}
                       placeholder={field.replace(/([A-Z])/g, " $1").trim()}
@@ -189,10 +190,14 @@ const CreateComponent = () => {
                     className="form-group col-12"
                     data-aos="zoom-in-down"
                   >
-                    <label className="text-dark bg-white p-2 image-input">
+                    <label
+                      htmlFor={fileField}
+                      className="text-dark bg-white p-2 image-input"
+                    >
                       Upload {fileField.replace(/([A-Z])/g, " $1").trim()}:
                       <input
                         type="file"
+                        id={fileField}
                         name={fileField}
                         onChange={handleFileChange}
                       />

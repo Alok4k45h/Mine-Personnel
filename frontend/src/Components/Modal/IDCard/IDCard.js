@@ -1,4 +1,6 @@
 import React from "react";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 import PropTypes from "prop-types";
 import "./IDCard.css";
 
@@ -25,9 +27,31 @@ const IDCard = ({ data }) => {
   const isContractor =
     ContractorName && ContractorName.toLowerCase() !== "departmental";
 
+  const generatePDF = async () => {
+    const cardElement = document.getElementById("idCardToPrint");
+
+    // Convert the card element to a canvas
+    const canvas = await html2canvas(cardElement, {
+      scale: 2, // Adjust the scale for better quality
+      useCORS: true, // Enable cross-origin
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+
+    // Initialize jsPDF and add the canvas image
+    const pdf = new jsPDF("landscape", "mm", "a4");
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const imgWidth = pageWidth - 20; // 10mm margin on each side
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    pdf.addImage(imgData, "PNG", 10, pageHeight / 4, imgWidth, imgHeight);
+    pdf.save(`${EmployeeName}_IDCard.pdf`);
+  };
+
   return (
     <div className="container">
-      <div className="row overflow-auto">
+      <div id="idCardToPrint" className="row overflow-auto">
         {/* Front Side of ID Card */}
         <div className="col-12 col-md-6 mb-3">
           <div className="id-card p-3">
@@ -101,7 +125,6 @@ const IDCard = ({ data }) => {
               </div>
               <div className="col-3">
                 <p className="id-para text-center">
-                  {" "}
                   <span className="font-weight-bold">Manager</span>
                   <br /> Siarmal OCP
                 </p>
@@ -138,7 +161,7 @@ const IDCard = ({ data }) => {
                 )}
               </div>
               <p className="text-justify IDback-note p-2">
-                <span className="span-note">Note: </span>This card is{" "}
+                <span className="span-note">Note: </span>This card is
                 <span className="span-NT">NOT TRANSFERABLE</span> and testifies
                 to holder's status as
                 <span className="span-DG text-uppercase p-2">
@@ -157,6 +180,13 @@ const IDCard = ({ data }) => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* PDF Generation Button */}
+      <div className="text-center">
+        <button className="btn btn-primary mt-3" onClick={generatePDF}>
+          Download ID Card
+        </button>
       </div>
     </div>
   );

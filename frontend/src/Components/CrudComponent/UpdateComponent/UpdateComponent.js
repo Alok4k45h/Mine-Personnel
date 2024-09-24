@@ -190,6 +190,7 @@ const UpdateUser = () => {
                       ? "date"
                       : "text"
                   }
+                  id="value"
                   name="value"
                   placeholder="Enter value"
                   value={update.value}
@@ -216,6 +217,7 @@ const UpdateUser = () => {
               Upload Employee Image:
               <input
                 type="file"
+                id="empImage"
                 name="empImage"
                 onChange={(e) => handleImageChange(e, "empImage")}
                 className="w-60 mb-3"
@@ -229,6 +231,7 @@ const UpdateUser = () => {
               Upload Employee Signature:
               <input
                 type="file"
+                id="empSignature"
                 name="empSignature"
                 onChange={(e) => handleImageChange(e, "empSignature")}
                 className=""
@@ -242,6 +245,7 @@ const UpdateUser = () => {
               Upload Manager Signature:
               <input
                 type="file"
+                id="managerSignature"
                 name="managerSignature"
                 onChange={(e) => handleImageChange(e, "managerSignature")}
                 className=""

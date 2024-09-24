@@ -33,6 +33,7 @@ const DeleteUser = () => {
           <form onSubmit={handleSubmit}>
             <input
               type="text"
+              id="aadhar-input"
               value={Aadhar}
               onChange={handleChange}
               placeholder="Enter Aadhar Number*"

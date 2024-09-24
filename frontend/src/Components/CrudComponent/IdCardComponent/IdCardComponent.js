@@ -35,6 +35,7 @@ const IdCardComponent = () => {
           <form onSubmit={handleSubmit}>
             <input
               type="text"
+              id="aadhar-input"
               value={Aadhar} // Value bound to Aadhar state
               onChange={handleChange} // Call handleChange on input change
               placeholder="Enter Aadhar Number*"

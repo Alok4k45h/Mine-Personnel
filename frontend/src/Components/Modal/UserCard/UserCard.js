@@ -1,11 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
+import { jsPDF } from "jspdf";
 import PropTypes from "prop-types";
 import "./UserCard.css";
 import IDCard from "../IDCard/IDCard";
 
 // Reusable component for rendering individual detail fields
 const DetailField = ({ label, value }) => (
-  <div className="col-12 col-md-6">
+  <div className="col-12 col-md-6 mb-2">
     <h4 className="detail-section-desc">
       {label}: {value || "N/A"}
     </h4>
@@ -14,10 +15,169 @@ const DetailField = ({ label, value }) => (
 
 const UserCard = ({ data }) => {
   const [showIDCard, setShowIDCard] = useState(false);
-  const modalContentRef = useRef(null);
-  const idCardRef = useRef(null);
-
   const modalId = `modal-${data.Aadhar}`;
+
+  const fields = [
+    { label: "Company Name", value: data.CompanyName },
+    { label: "Contractor Name", value: data.ContractorName },
+    { label: "ID No.", value: data.Id },
+    { label: "Joining Date", value: data.JoiningDate },
+    { label: "Authorisation No.", value: data.AuthorisationNo },
+    { label: "Fathers Name", value: data.FathersName },
+    { label: "Date of Birth", value: data.Birth },
+    { label: "Blood Group", value: data.BloodGroup },
+    { label: "Form-A No.", value: data.FormA },
+    { label: "Driving Licence No.", value: data.Licence },
+    { label: "PAN", value: data.PAN },
+    { label: "VTC No.", value: data.VtcNo },
+    { label: "VTC Date", value: data.VtcDate },
+    { label: "IME/PME No.", value: data.ImeNO },
+    { label: "IME/PME Date", value: data.ImeDate },
+    { label: "Contact No.", value: data.Contact },
+    { label: "Present or Absent", value: data.IsPresent },
+    { label: "Bank Name", value: data.BankName },
+    { label: "Bank A/C No.", value: data.BankAc },
+    { label: "Nominee Name", value: data.NominiesName },
+    { label: "Nominee Relation", value: data.NominiesRelation },
+    { label: "Emergency Contact", value: data.EmergencyNo },
+    { label: "Permanent Address", value: data.ParmanentAddress },
+    { label: "Temporary Address", value: data.TempAddress },
+    { label: "Nominee Address", value: data.NominiesAddress },
+  ];
+
+  const printUserLabels = () => {
+    if (!data) return;
+
+    const doc = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+    });
+
+    const margin = 5;
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    // Draw page boundary
+    doc.setLineWidth(0.5);
+    doc.rect(margin, margin, pageWidth - 2 * margin, pageHeight - 2 * margin);
+
+    // MCL Logo
+    doc.addImage(
+      "https://res.cloudinary.com/alokkumar07/image/upload/v1726235667/socp_employees/mclLogo_d71zvn.png",
+      "JPEG",
+      margin + 1,
+      margin + 5,
+      60,
+      30
+    );
+
+    // Employee Image
+    if (data.empImage) {
+      doc.addImage(data.empImage, "JPEG", pageWidth - 50, margin + 5, 40, 40);
+    }
+
+    // Header text
+    let y = margin + 40;
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(0, 102, 204); // Custom title color
+    doc.text(`Name: ${data.EmployeeName}`, margin + 2, y);
+    y += 7;
+    doc.text(`Designation: ${data.Designation}`, margin + 2, y);
+    y += 7;
+    doc.text(`Aadhar No.: ${data.Aadhar}`, margin + 2, y);
+    y += 10;
+
+    // Detail Fields
+    doc.setFontSize(10);
+    doc.setTextColor(40);
+    doc.setFont("helvetica", "normal");
+    fields.forEach((field, index) => {
+      if (
+        field.label !== "Permanent Address" &&
+        field.label !== "Temporary Address" &&
+        field.label !== "Nominee Address"
+      ) {
+        const colPosition = margin + 2 + (index % 2) * (pageWidth / 2);
+        const verticalPosition = y + Math.floor(index / 2) * 7;
+
+        doc.text(`${field.label}:`, colPosition, verticalPosition);
+        const wrappedText = doc.splitTextToSize(
+          `${field.value || "N/A"}`,
+          pageWidth / 2 - margin - 50 // Adjusted for label space
+        );
+
+        wrappedText.forEach((line, lineIndex) => {
+          doc.text(line, colPosition + 35, verticalPosition + lineIndex * 7);
+        });
+      }
+    });
+
+    // Address Section
+    const addressY = y + Math.floor((fields.length - 3) / 2) * 8 - 10; // Position for address section
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.text("Address:", margin + 2, addressY);
+    let currentY = addressY + 7; // Start below "Addresses:" with some space
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    const addresses = [
+      { label: "Permanent Address", value: data.ParmanentAddress },
+      { label: "Temporary Address", value: data.TempAddress },
+      { label: "Nominee Address", value: data.NominiesAddress },
+    ];
+    addresses.forEach((address) => {
+      doc.text(`${address.label}:`, margin + 2, currentY);
+      const wrappedAddress = doc.splitTextToSize(
+        address.value || "N/A",
+        pageWidth - 2 * margin - 50 // Adjusted for margins
+      );
+      wrappedAddress.forEach((line, lineIndex) => {
+        doc.text(line, margin + 45, currentY + lineIndex * 7);
+      });
+      // Move the currentY position down for the next address
+      currentY += wrappedAddress.length * 7; // Adjust spacing for next address
+    });
+
+    // Footer Section
+
+    // Qr Code
+    const footerY = pageHeight - margin - 40;
+    if (data.qrCode) {
+      doc.addImage(data.qrCode, "JPEG", margin + 5, footerY, 20, 20);
+      doc.text("QR Code", margin + 7, footerY + 25);
+    }
+
+    // Employee Signature
+    if (data.empSignature) {
+      doc.addImage(
+        data.empSignature,
+        "JPEG",
+        pageWidth / 2 - 20,
+        footerY,
+        40,
+        20
+      );
+      doc.text("Employee Signature", pageWidth / 2 - 13, footerY + 25);
+    }
+
+    // Manager Signature
+    if (data.managerSignature) {
+      doc.addImage(
+        data.managerSignature,
+        "JPEG",
+        pageWidth - 50,
+        footerY,
+        40,
+        20
+      );
+      doc.text("Manager Signature", pageWidth - 48, footerY + 25);
+    }
+
+    doc.save(`${data.EmployeeName}.pdf`);
+  };
 
   return (
     <div className="col-12 col-md-6 col-lg-4">
@@ -34,7 +194,6 @@ const UserCard = ({ data }) => {
           Detail
         </button>
 
-        {/* Modal */}
         <div
           className="modal fade"
           id={modalId}
@@ -50,17 +209,16 @@ const UserCard = ({ data }) => {
                 </h5>
               </div>
 
-              <div className="modal-body" ref={modalContentRef}>
+              <div className="modal-body">
                 <div className="detail-section">
                   <div className="container">
-                    {/* Employee Details Section */}
                     <div className="row">
                       <div className="col-12 col-md-4 mb-3 text-center">
                         <img
                           src={data.empImage}
                           alt="Employee"
                           className="emp-img p-5"
-                          loading="lazy" // Lazy load image for better performance
+                          loading="lazy"
                         />
                         <h1 className="detail-section-heading text-center">
                           {data.EmployeeName}
@@ -75,61 +233,7 @@ const UserCard = ({ data }) => {
 
                       <div className="col-12 col-md-8 mt-5">
                         <div className="row">
-                          {/* Rendering detail fields dynamically */}
-                          {[
-                            { label: "Company Name", value: data.CompanyName },
-                            {
-                              label: "Contractor Name",
-                              value: data.ContractorName,
-                            },
-                            { label: "ID No.", value: data.Id },
-                            { label: "Joining Date", value: data.JoiningDate },
-                            {
-                              label: "Authorisation No.",
-                              value: data.AuthorisationNo,
-                            },
-                            { label: "Fathers Name", value: data.FathersName },
-                            { label: "Date of Birth", value: data.Birth },
-                            { label: "Blood Group", value: data.BloodGroup },
-                            { label: "Form-A No.", value: data.FormA },
-                            {
-                              label: "Driving Licence No.",
-                              value: data.Licence,
-                            },
-                            { label: "PAN", value: data.PAN },
-                            { label: "VTC No.", value: data.VtcNo },
-                            { label: "VTC Date", value: data.VtcDate },
-                            { label: "IME/PME No.", value: data.ImeNO },
-                            { label: "IME/PME Date", value: data.ImeDate },
-                            {
-                              label: "Permanent Address",
-                              value: data.ParmanentAddress,
-                            },
-                            {
-                              label: "Temporary Address",
-                              value: data.TempAddress,
-                            },
-                            { label: "Contact No.", value: data.Contact },
-                            {
-                              label: "Present or Absent",
-                              value: data.IsPresent,
-                            },
-                            { label: "Bank Name", value: data.BankName },
-                            { label: "Bank A/C No.", value: data.BankAc },
-                            { label: "Nominee Name", value: data.NominiesName },
-                            {
-                              label: "Nominee Address",
-                              value: data.NominiesAddress,
-                            },
-                            {
-                              label: "Nominee Relation",
-                              value: data.NominiesRelation,
-                            },
-                            {
-                              label: "Emergency Contact No.",
-                              value: data.EmergencyNo,
-                            },
-                          ].map((field, index) => (
+                          {fields.map((field, index) => (
                             <DetailField
                               key={index}
                               label={field.label}
@@ -182,7 +286,7 @@ const UserCard = ({ data }) => {
                     {/* ID Card Section */}
                     {showIDCard && (
                       <div className="row mt-5">
-                        <div className="col-12 text-center" ref={idCardRef}>
+                        <div className="col-12 text-center">
                           <IDCard data={data} />
                         </div>
                       </div>
@@ -191,18 +295,24 @@ const UserCard = ({ data }) => {
                 </div>
               </div>
 
-              {/* Modal Footer */}
               <div className="modal-footer m-auto">
                 <button
                   type="button"
-                  className="btn btn-outline-dark"
+                  className="btn btn-warning"
                   onClick={() => setShowIDCard(!showIDCard)}
                 >
                   {showIDCard ? "Hide ID Card" : "Show ID Card"}
                 </button>
                 <button
                   type="button"
-                  className="btn btn-dark"
+                  className="btn btn-primary"
+                  onClick={printUserLabels}
+                >
+                  Download PDF
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
                   data-dismiss="modal"
                 >
                   Close
@@ -217,7 +327,40 @@ const UserCard = ({ data }) => {
 };
 
 UserCard.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.shape({
+    EmployeeName: PropTypes.string.isRequired,
+    Aadhar: PropTypes.string.isRequired,
+    empImage: PropTypes.string,
+    CompanyName: PropTypes.string,
+    ContractorName: PropTypes.string,
+    Id: PropTypes.string,
+    JoiningDate: PropTypes.string,
+    AuthorisationNo: PropTypes.string,
+    FathersName: PropTypes.string,
+    Birth: PropTypes.string,
+    BloodGroup: PropTypes.string,
+    FormA: PropTypes.string,
+    Licence: PropTypes.string,
+    PAN: PropTypes.string,
+    VtcNo: PropTypes.string,
+    VtcDate: PropTypes.string,
+    ImeNO: PropTypes.string,
+    ImeDate: PropTypes.string,
+    ParmanentAddress: PropTypes.string,
+    TempAddress: PropTypes.string,
+    Contact: PropTypes.string,
+    IsPresent: PropTypes.bool,
+    BankName: PropTypes.string,
+    BankAc: PropTypes.string,
+    NominiesName: PropTypes.string,
+    NominiesAddress: PropTypes.string,
+    NominiesRelation: PropTypes.string,
+    EmergencyNo: PropTypes.string,
+    qrCode: PropTypes.string,
+    empSignature: PropTypes.string,
+    managerSignature: PropTypes.string,
+    Designation: PropTypes.string,
+  }).isRequired,
 };
 
 export default UserCard;
